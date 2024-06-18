@@ -11,18 +11,20 @@ namespace QLTV
         public string Title { get; set; }
         public string Author { get; set; }
         public string Category { get; set; }
-        public DateTime Published { get; set; }
+        public int Published { get; set; }
+        public DateTime DueDate { get; set; }
 
-        public Book(string title, string author, string category, DateTime published)
+        public Book(string title, string author, string category, int published, DateTime dueDate)
         {
             Title = title;
             Author = author;
             Category = category;
             Published = published;
+            DueDate = dueDate;
         }
         public override string ToString()
         {
-            return $"{Title} by {Author} ({Category}) - Published: {Published}";
+            return $"{Title} by {Author} ({Category}) ({Published}) ({DueDate}) - DueDate : ";
         }
     }
     public class Borrower

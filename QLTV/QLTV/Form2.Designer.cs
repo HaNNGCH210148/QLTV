@@ -46,6 +46,8 @@
             label1 = new Label();
             txt_Category = new TextBox();
             label5 = new Label();
+            txt_DueDate = new TextBox();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -156,7 +158,7 @@
             // txt_Published
             // 
             txt_Published.BackColor = SystemColors.Info;
-            txt_Published.Location = new Point(75, 344);
+            txt_Published.Location = new Point(75, 299);
             txt_Published.Name = "txt_Published";
             txt_Published.Size = new Size(257, 27);
             txt_Published.TabIndex = 47;
@@ -164,7 +166,7 @@
             // txt_Author
             // 
             txt_Author.BackColor = SystemColors.Info;
-            txt_Author.Location = new Point(75, 197);
+            txt_Author.Location = new Point(75, 170);
             txt_Author.Name = "txt_Author";
             txt_Author.Size = new Size(257, 27);
             txt_Author.TabIndex = 46;
@@ -172,7 +174,7 @@
             // txt_Title
             // 
             txt_Title.BackColor = SystemColors.Info;
-            txt_Title.Location = new Point(75, 124);
+            txt_Title.Location = new Point(75, 109);
             txt_Title.Name = "txt_Title";
             txt_Title.Size = new Size(257, 27);
             txt_Title.TabIndex = 45;
@@ -180,7 +182,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(-2, 351);
+            label3.Location = new Point(2, 302);
             label3.Name = "label3";
             label3.Size = new Size(73, 20);
             label3.TabIndex = 44;
@@ -189,7 +191,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(11, 200);
+            label2.Location = new Point(11, 173);
             label2.Name = "label2";
             label2.Size = new Size(54, 20);
             label2.TabIndex = 43;
@@ -199,7 +201,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 127);
+            label1.Location = new Point(11, 112);
             label1.Name = "label1";
             label1.Size = new Size(38, 20);
             label1.TabIndex = 42;
@@ -208,7 +210,7 @@
             // txt_Category
             // 
             txt_Category.BackColor = SystemColors.Info;
-            txt_Category.Location = new Point(75, 275);
+            txt_Category.Location = new Point(75, 233);
             txt_Category.Name = "txt_Category";
             txt_Category.Size = new Size(257, 27);
             txt_Category.TabIndex = 62;
@@ -216,11 +218,28 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(0, 278);
+            label5.Location = new Point(2, 236);
             label5.Name = "label5";
             label5.Size = new Size(69, 20);
             label5.TabIndex = 63;
             label5.Text = "Category";
+            // 
+            // txt_DueDate
+            // 
+            txt_DueDate.BackColor = SystemColors.Info;
+            txt_DueDate.Location = new Point(75, 356);
+            txt_DueDate.Name = "txt_DueDate";
+            txt_DueDate.Size = new Size(257, 27);
+            txt_DueDate.TabIndex = 64;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(3, 359);
+            label4.Name = "label4";
+            label4.Size = new Size(68, 20);
+            label4.TabIndex = 65;
+            label4.Text = "DueDate";
             // 
             // Form2
             // 
@@ -228,6 +247,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.GradientInactiveCaption;
             ClientSize = new Size(901, 450);
+            Controls.Add(label4);
+            Controls.Add(txt_DueDate);
             Controls.Add(label5);
             Controls.Add(txt_Category);
             Controls.Add(richTextBox1);
@@ -272,5 +293,7 @@
         private Label label1;
         private TextBox txt_Category;
         private Label label5;
+        private TextBox txt_DueDate;
+        private Label label4;
     }
 }

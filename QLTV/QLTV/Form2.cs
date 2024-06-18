@@ -24,10 +24,20 @@ namespace QLTV
             table.Columns.Add("Title", typeof(string));
             table.Columns.Add("Author", typeof(string));
             table.Columns.Add("Category", typeof(string));
-            table.Columns.Add("Published", typeof(DateTime));
+            table.Columns.Add("Published", typeof(int));
+            table.Columns.Add("DueDate", typeof(DateTime));
 
             bindingSource.DataSource = table;
             dataGridView1.DataSource = bindingSource;
+
+            dataGridView1.Columns["DueDate"].DefaultCellStyle.Format = "dd/MM/yyyy"; // Định dạng hiển thị của cột DueDate
+            dataGridView1.Columns["DueDate"].HeaderText = "Due Date";
+
+            // Điều chỉnh kích thước cột để hiển thị đủ dữ liệu
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Thiết lập lại BindingSource để cập nhật dữ liệu
+            bindingSource.ResetBindings(false);
         }
 
         private void btn_Add_Click(object sender, EventArgs e)
@@ -35,14 +45,14 @@ namespace QLTV
             string title = txt_Title.Text;
             string author = txt_Author.Text;
             string category = txt_Category.Text;
-            if (DateTime.TryParse(txt_Published.Text, out DateTime published))
+            if (int.TryParse(txt_Published.Text, out int published) && DateTime.TryParse(txt_DueDate.Text, out DateTime dueDate))
             {
                 if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(author) || string.IsNullOrWhiteSpace(category))
                 {
                     MessageBox.Show("All fields must be filled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                Book newBook = new Book(title, author, category, published);
+                Book newBook = new Book(title, author, category, published, dueDate);
                 books.Add(newBook);
 
                 DataRow newRow = table.NewRow();
@@ -50,6 +60,7 @@ namespace QLTV
                 newRow["Author"] = author;
                 newRow["Category"] = category;
                 newRow["Published"] = published;
+                newRow["DueDate"] = dueDate;
 
                 table.Rows.Add(newRow);
                 MessageBox.Show("Added Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -57,10 +68,9 @@ namespace QLTV
             }
             else
             {
-                MessageBox.Show("Published date is incorrect!", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                MessageBox.Show("Published year or Due Date is incorrect!", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
             }
         }
-
         private void label2_Click(object sender, EventArgs e)
         {
 
@@ -85,6 +95,7 @@ namespace QLTV
                     newRow["Author"] = book.Author;
                     newRow["Category"] = book.Category;
                     newRow["Published"] = book.Published;
+                    newRow["DueDate"] = book.DueDate;
 
                     searchResult.Rows.Add(newRow);
                 }
@@ -129,49 +140,44 @@ namespace QLTV
 
         private void btn_Update_Click(object sender, EventArgs e)
         {
-            string keyword = txt_Search.Text.ToLower();
-            if (string.IsNullOrEmpty(keyword))
+            int rowIndex = dataGridView1.CurrentRow.Index;
+            if (rowIndex >= 0)
             {
-                MessageBox.Show("Please enter the title or author of the book you want to update!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            bool item = false;
-            for (int i = 0; i < books.Count; i++)
-            {
-                if (books[i].Title.ToLower().Contains(keyword) || books[i].Author.ToLower().Contains(keyword))
+                string title = txt_Title.Text;
+                string author = txt_Author.Text;
+                string category = txt_Category.Text;
+                if (int.TryParse(txt_Published.Text, out int published) && DateTime.TryParse(txt_DueDate.Text, out DateTime dueDate))
                 {
-                    string title = txt_Title.Text;
-                    string author = txt_Author.Text;
-                    string category = txt_Category.Text;
-                    if (DateTime.TryParse(txt_Published.Text, out DateTime published))
+                    if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(author) || string.IsNullOrWhiteSpace(category))
                     {
-                        if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(author) || string.IsNullOrWhiteSpace(category))
-                        {
-                            MessageBox.Show("All fields must be filled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        books[i].Title = title;
-                        books[i].Author = author;
-                        books[i].Category = category;
-                        books[i].Published = published;
-
-                        DataRow row = table.Rows[i];
-                        row["Title"] = title;
-                        row["Author"] = author;
-                        row["Category"] = category;
-                        row["Published"] = published;
-
-                        item = true;
-                        MessageBox.Show("Updated Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        break;
+                        MessageBox.Show("All fields must be filled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
+                    books[rowIndex].Title = title;
+                    books[rowIndex].Author = author;
+                    books[rowIndex].Category = category;
+                    books[rowIndex].Published = published;
+                    books[rowIndex].DueDate = dueDate;
+
+                    DataRow row = table.Rows[rowIndex];
+                    row["Title"] = title;
+                    row["Author"] = author;
+                    row["Category"] = category;
+                    row["Published"] = published;
+                    row["DueDate"] = dueDate;
+
+                    MessageBox.Show("Updated Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    bindingSource.ResetBindings(false);
+                }
+                else
+                {
+                    MessageBox.Show("Published year or Due Date is incorrect!", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
             }
-            if (!item)
+            else
             {
-                MessageBox.Show("Book not found! Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a book to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            bindingSource.ResetBindings(false);
         }
 
         private void btn_OpenFile_Click(object sender, EventArgs e)
@@ -188,14 +194,14 @@ namespace QLTV
                     richTextBox1.Text += line + "\n";
                     string[] info = line.Split(" | ");
 
-                    if (info.Length >= 4)
+                    if (info.Length >= 5)
                     {
                         string title = info[0];
                         string author = info[1];
                         string category = info[2];
-                        if (DateTime.TryParse(info[3], out DateTime published))
+                        if (int.TryParse(info[3], out int published) && DateTime.TryParse(info[4], out DateTime dueDate))
                         {
-                            Book newBook = new Book(title, author, category, published);
+                            Book newBook = new Book(title, author, category, published, dueDate);
                             books.Add(newBook);
 
                             DataRow newRow = table.NewRow();
@@ -203,6 +209,7 @@ namespace QLTV
                             newRow["Author"] = author;
                             newRow["Category"] = category;
                             newRow["Published"] = published;
+                            newRow["DueDate"] = dueDate;
 
                             table.Rows.Add(newRow);
                         }
@@ -210,6 +217,49 @@ namespace QLTV
                 }
             }
             bindingSource.ResetBindings(false);
+            /*OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files|*.txt";
+            openFileDialog.Title = "Open books file";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = openFileDialog.FileName;
+                books.Clear();
+                table.Rows.Clear();
+                richTextBox1.Clear();
+
+                using (StreamReader readtext = new StreamReader(fileName))
+                {
+                    string line;
+                    while ((line = readtext.ReadLine()) != null)
+                    {
+                        richTextBox1.Text += line + "\n";
+                        string[] info = line.Split(" | ");
+
+                        if (info.Length >= 5)
+                        {
+                            string title = info[0];
+                            string author = info[1];
+                            string category = info[2];
+                            if (int.TryParse(info[3], out int published) && DateTime.TryParse(info[4], out DateTime dueDate))
+                            {
+                                Book newBook = new Book(title, author, category, published, dueDate);
+                                books.Add(newBook);
+
+                                DataRow newRow = table.NewRow();
+                                newRow["Title"] = title;
+                                newRow["Author"] = author;
+                                newRow["Category"] = category;
+                                newRow["Published"] = published;
+                                newRow["DueDate"] = dueDate;
+
+                                table.Rows.Add(newRow);
+                            }
+                        }
+                    }
+                }
+                bindingSource.ResetBindings(false);
+            }*/
         }
 
         private void btn_SaveFile_Click(object sender, EventArgs e)
@@ -218,20 +268,13 @@ namespace QLTV
             {
                 foreach (Book book in books)
                 {
-                    string bookInfo = $"{book.Title} | {book.Author} | {book.Category}";
+                    string bookInfo = $"{book.Title} | {book.Author} | {book.Category} | {book.Published} | {book.DueDate}";
                     writetext.WriteLine(bookInfo);
                 }
             }
         }
 
-        private void btn_Clear_Click(object sender, EventArgs e)
-        {
-            table.Rows.Clear();
-            books.Clear();
-            richTextBox1.Clear();
-            bindingSource.ResetBindings(false);
-            File.WriteAllText("books.txt", string.Empty);
-        }
+        
 
         private void btn_Quit_Click(object sender, EventArgs e)
         {
