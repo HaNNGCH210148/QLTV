@@ -1,0 +1,17 @@
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.Form1.resources
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.Form2.resources
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.csproj.GenerateResource.cache
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.GeneratedMSBuildEditorConfig.editorconfig
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.AssemblyInfoInputs.cache
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.AssemblyInfo.cs
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.csproj.CoreCompileInputs.cache
+D:\1618\QLTV\QLTV\bin\Debug\net8.0-windows\QLTV.exe
+D:\1618\QLTV\QLTV\bin\Debug\net8.0-windows\QLTV.deps.json
+D:\1618\QLTV\QLTV\bin\Debug\net8.0-windows\QLTV.runtimeconfig.json
+D:\1618\QLTV\QLTV\bin\Debug\net8.0-windows\QLTV.dll
+D:\1618\QLTV\QLTV\bin\Debug\net8.0-windows\QLTV.pdb
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.dll
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\refint\QLTV.dll
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.pdb
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\QLTV.genruntimeconfig.cache
+D:\1618\QLTV\QLTV\obj\Debug\net8.0-windows\ref\QLTV.dll
