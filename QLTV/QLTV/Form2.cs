@@ -24,8 +24,10 @@ namespace QLTV
             table.Columns.Add("Title", typeof(string));
             table.Columns.Add("Author", typeof(string));
             table.Columns.Add("Category", typeof(string));
+            table.Columns.Add("Borrower",  typeof(string));
             table.Columns.Add("Published", typeof(int));
             table.Columns.Add("DueDate", typeof(DateTime));
+
 
             bindingSource.DataSource = table;
             dataGridView1.DataSource = bindingSource;
@@ -38,6 +40,7 @@ namespace QLTV
 
             // Thiết lập lại BindingSource để cập nhật dữ liệu
             bindingSource.ResetBindings(false);
+
         }
 
         private void btn_Add_Click(object sender, EventArgs e)
@@ -45,20 +48,22 @@ namespace QLTV
             string title = txt_Title.Text;
             string author = txt_Author.Text;
             string category = txt_Category.Text;
+            string borrower = txt_Borrower.Text;
             if (int.TryParse(txt_Published.Text, out int published) && DateTime.TryParse(txt_DueDate.Text, out DateTime dueDate))
             {
-                if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(author) || string.IsNullOrWhiteSpace(category))
+                if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(author) || string.IsNullOrWhiteSpace(category)  || string.IsNullOrEmpty(borrower))
                 {
                     MessageBox.Show("All fields must be filled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                Book newBook = new Book(title, author, category, published, dueDate);
+                Book newBook = new Book(title, author, category, borrower, published, dueDate);
                 books.Add(newBook);
 
                 DataRow newRow = table.NewRow();
                 newRow["Title"] = title;
                 newRow["Author"] = author;
                 newRow["Category"] = category;
+                newRow["Borrower"] = borrower;
                 newRow["Published"] = published;
                 newRow["DueDate"] = dueDate;
 
@@ -94,6 +99,7 @@ namespace QLTV
                     newRow["Title"] = book.Title;
                     newRow["Author"] = book.Author;
                     newRow["Category"] = book.Category;
+                    newRow["Borower"] = book.Borrower;
                     newRow["Published"] = book.Published;
                     newRow["DueDate"] = book.DueDate;
 
@@ -146,6 +152,7 @@ namespace QLTV
                 string title = txt_Title.Text;
                 string author = txt_Author.Text;
                 string category = txt_Category.Text;
+                string borrower = txt_Borrower.Text;
                 if (int.TryParse(txt_Published.Text, out int published) && DateTime.TryParse(txt_DueDate.Text, out DateTime dueDate))
                 {
                     if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(author) || string.IsNullOrWhiteSpace(category))
@@ -156,6 +163,7 @@ namespace QLTV
                     books[rowIndex].Title = title;
                     books[rowIndex].Author = author;
                     books[rowIndex].Category = category;
+                    books[rowIndex].Borrower = borrower;
                     books[rowIndex].Published = published;
                     books[rowIndex].DueDate = dueDate;
 
@@ -163,6 +171,7 @@ namespace QLTV
                     row["Title"] = title;
                     row["Author"] = author;
                     row["Category"] = category;
+                    row[borrower] = borrower;
                     row["Published"] = published;
                     row["DueDate"] = dueDate;
 
@@ -194,20 +203,22 @@ namespace QLTV
                     richTextBox1.Text += line + "\n";
                     string[] info = line.Split(" | ");
 
-                    if (info.Length >= 5)
+                    if (info.Length > 5)
                     {
                         string title = info[0];
                         string author = info[1];
                         string category = info[2];
-                        if (int.TryParse(info[3], out int published) && DateTime.TryParse(info[4], out DateTime dueDate))
+                        string borrower = info[3];
+                        if (int.TryParse(info[4], out int published) && DateTime.TryParse(info[5], out DateTime dueDate))
                         {
-                            Book newBook = new Book(title, author, category, published, dueDate);
+                            Book newBook = new Book(title, author, category, borrower, published, dueDate);
                             books.Add(newBook);
 
                             DataRow newRow = table.NewRow();
                             newRow["Title"] = title;
                             newRow["Author"] = author;
                             newRow["Category"] = category;
+                            newRow["Borower"] = borrower;
                             newRow["Published"] = published;
                             newRow["DueDate"] = dueDate;
 
@@ -268,7 +279,7 @@ namespace QLTV
             {
                 foreach (Book book in books)
                 {
-                    string bookInfo = $"{book.Title} | {book.Author} | {book.Category} | {book.Published} | {book.DueDate}";
+                    string bookInfo = $"{book.Title} | {book.Author} | {book.Category} | {book.Published}| {book.Borrower} | {book.DueDate}";
                     writetext.WriteLine(bookInfo);
                 }
             }
